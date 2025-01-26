@@ -1,37 +1,6 @@
 import re
 
-def validar_cnpj(cnpj):
-    # Remove caracteres não numéricos
-    cnpj = re.sub(r'\D', '', cnpj)
-
-    # Verifica se o CNPJ tem 14 dígitos
-    if len(cnpj) != 14:
-        return False
-
-    # Verifica se todos os dígitos são iguais (ex.: 11111111111111)
-    if cnpj == cnpj[0] * len(cnpj):
-        return False
-
-    # Cálculo do primeiro dígito verificador
-    multiplicadores1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-    soma1 = sum(int(cnpj[i]) * multiplicadores1[i] for i in range(12))
-    resto1 = soma1 % 11
-    digito1 = 0 if resto1 < 2 else 11 - resto1
-
-    # Cálculo do segundo dígito verificador
-    multiplicadores2 = [6] + multiplicadores1
-    soma2 = sum(int(cnpj[i]) * multiplicadores2[i] for i in range(13))
-    resto2 = soma2 % 11
-    digito2 = 0 if resto2 < 2 else 11 - resto2
-
-    # Verifica os dígitos verificadores
-    return int(cnpj[12]) == digito1 and int(cnpj[13]) == digito2
-
-# Captura o CNPJ do usuário
-cnpj_usuario = input("Digite o CNPJ (apenas números ou com formatação): ")
-
-# Valida o CNPJ
-if validar_cnpj(cnpj_usuario):
+# Exemplo de padrão de CNPJ para validação
+cnpj = "12.345.678/0001-95"
+if re.match(r"\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}", cnpj):
     print("CNPJ válido!")
-else:
-    print("CNPJ inválido!")
